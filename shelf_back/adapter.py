@@ -15,6 +15,14 @@ def get_book_details(book_id):
     return recursive_walk(w, test)
 
 
+def add_book_to_storage(book_id, payload):
+    return 'add_book_to_storage'
+
+
+def change_book_in_storage(book_id):
+    return 'change_book_in_storage'
+
+
 @autocurry
 def recursive_walk(func, coll):
     if is_seqcoll(coll):
@@ -22,6 +30,7 @@ def recursive_walk(func, coll):
     if is_mapping(coll):
         return walk_values(recursive_walk(func), coll)
     return func(coll)
+
 
 def w(value):
     return value

@@ -39,6 +39,14 @@ def get_books():
     return query
 
 
-def get_book(id):
-    query = Books.select().where(Books.id == id)
+def get_book(book_id):
+    query = Books.select().where(Books.id == book_id)
     return query
+
+
+def add_book(book_id, payload):
+    return 0
+
+
+def change_book(book_id, payload):
+    return 0
