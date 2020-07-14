@@ -1,0 +1,7 @@
+bottle==0.12.18
+funcy==1.14
+gunicorn==20.0.4
+honcho==1.0.1
+peewee==3.13.3
+pkg-resources==0.0.0
+psycopg2==2.8.5
