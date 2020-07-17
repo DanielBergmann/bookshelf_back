@@ -20,7 +20,8 @@ class BaseModel(Model):
     class Meta:
         database = psql_db
 
-class Books(BaseModel):
+
+class Book(BaseModel):
     title=CharField()
     author=CharField()
     read_status=IntegerField(default=0)
@@ -35,12 +36,12 @@ class Books(BaseModel):
 
 
 def get_books():
-    query = Books.select().order_by(Books.id.asc())
+    query = Book.select().order_by(Book.id.asc())
     return query
 
 
 def get_book(book_id):
-    query = Books.select().where(Books.id == book_id)
+    query = Book.select().where(Book.id == book_id)
     return query
 
 
