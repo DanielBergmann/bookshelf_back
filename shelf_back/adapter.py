@@ -1,6 +1,10 @@
-from .db_manager import(
+from .db_manager import (
     get_books,
     get_book,
+    get_authors,
+    get_author,
+    add_book,
+    change_book,
 )
 from funcy import walk, walk_values, is_seqcoll, is_mapping, autocurry
 
@@ -15,12 +19,24 @@ def get_book_details(book_id):
     return recursive_walk(w, test)
 
 
-def add_book_to_storage(book_id, payload):
-    return 'add_book_to_storage'
+def add_book_to_storage(payload):
+    test = add_book(payload)
+    return "add_book_to_storage"
 
 
-def change_book_in_storage(book_id):
-    return 'change_book_in_storage'
+def get_authors_all():
+    test = get_authors()
+    return recursive_walk(w, list(test.dicts()))
+
+
+def get_author_details(author_id):
+    test = get_author(author_id).dicts()[0]
+    return recursive_walk(w, test)
+
+
+def change_book_in_storage(book):
+    test = change_book(book)
+    return "change_book_in_storage"
 
 
 @autocurry

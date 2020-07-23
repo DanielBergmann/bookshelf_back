@@ -1,15 +1,6 @@
-#import utf8reader
+# import utf8reader
 import json
-from bottle import (
-    HTTPError,
-    get,
-    default_app,
-    post,
-    put,
-    request,
-    route,
-    static_file
-)
+from bottle import HTTPError, get, default_app, post, put, request, route, static_file
 
 from shelf_back.adapter import (
     get_books_all,
@@ -19,38 +10,57 @@ from shelf_back.adapter import (
     get_authors_all,
     get_author_details,
 )
-@get('/')
-@get('/api/books')
+
+
+@get("/")
+@get("/api/books")
 def books():
-    return {'response': get_books_all()}
+    return {"response": get_books_all()}
 
 
-@get('/api/books/<book_id:int>')
+@get("/api/books/<book_id:int>")
 def book(book_id):
-    return {'response': get_book_details(book_id)}
+    return {"response": get_book_details(book_id)}
 
 
-@post('/api/books/add')
+@post("/api/books/add")
 def book_add():
-    title = request.forms.get('Title')
-    author = request.forms.get('Author')
-    description = request.forms.get('Description')
-    priority = request.forms.get('Priority')
-    request_payload = [title,author,description,priority]
-    #status = add_book_to_storage(request_payload)
-    status = 1
-    print(request_payload)
-    return {'response': request_payload} if status else {'response':'failed to add booking'}
+    title = request.forms.get("Title")
+    author = request.forms.get("Author")
+    description = request.forms.get("Description")
+    priority = request.forms.get("Priority")
+    request_payload = [title, author, description, priority]
+    status = add_book_to_storage(request_payload)
+    # status = 1
+    # print(request_payload)
+    # return {'response': request_payload} if status else {'response':'failed to add booking'}
+    return (
+        "<a href='http://127.0.0.1:3000/books'><p>go back</p></a></br>"
+        + "{response: "
+        + json.dumps(request_payload)
+        + "}"
+        if status
+        else {"response": "failed to add booking"}
+    )
 
 
-@get('/api/authors')
+@post("/api/books/<book_id:int>/change")
+def book_change(book_id):
+    print("222222221")
+    test = json.loads(request.body.getvalue().decode("utf-8"))
+    change = change_book_in_storage(test)
+    return {"response": test} if change else "something went wrong"
+
+
+@get("/api/authors")
 def authors():
-    return {'response': get_authors_all()}
+    return {"response": get_authors_all()}
 
 
-@get('/api/authors/<author_id:int>')
+@get("/api/authors/<author_id:int>")
 def book(author_id):
-    return {'response': get_author_details(author_id)}
+    return {"response": get_author_details(author_id)}
+
 
 # @post('/follow/error/<error_id:int>')
 # def follow_error(error_id):
