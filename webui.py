@@ -7,8 +7,10 @@ from shelf_back.adapter import (
     get_book_details,
     add_book_to_storage,
     change_book_in_storage,
+    change_book_status,
     get_authors_all,
     get_author_details,
+    delete_book,
 )
 
 
@@ -25,18 +27,14 @@ def book(book_id):
 
 @post("/api/books/add")
 def book_add():
-    title = request.forms.get("Title")
-    author = request.forms.get("Author")
-    description = request.forms.get("Description")
-    priority = request.forms.get("Priority")
-    request_payload = [title, author, description, priority]
+    # {'author': 'Ernest Hemingway', 'title': 'Men Without Women', 'description': '12345', 'priority': '1234'}
+    request_payload = json.loads(request.body.getvalue().decode("utf-8"))
+    print(request_payload['author'])
     status = add_book_to_storage(request_payload)
-    # status = 1
-    # print(request_payload)
-    # return {'response': request_payload} if status else {'response':'failed to add booking'}
+    #status = 1
     return (
-        "<a href='http://127.0.0.1:3000/books'><p>go back</p></a></br>"
-        + "{response: "
+        #"<a href='http://127.0.0.1:3000/books'><p>go back</p></a></br>"+
+        "{response: "
         + json.dumps(request_payload)
         + "}"
         if status
@@ -44,11 +42,24 @@ def book_add():
     )
 
 
-@post("/api/books/<book_id:int>/change")
-def book_change(book_id):
-    print("222222221")
+@post("/api/books/change")
+def book_change():
     test = json.loads(request.body.getvalue().decode("utf-8"))
     change = change_book_in_storage(test)
+    return {"response": test} if change else "something went wrong"
+
+
+@post("/api/books/<id:int>/change")
+def book_change(id):
+    test = json.loads(request.body.getvalue().decode("utf-8"))
+    change = change_book_status(test)
+    return {"response": test} if change else "something went wrong"
+
+
+@post("/api/books/delete")
+def book_change():
+    test = json.loads(request.body.getvalue().decode("utf-8"))
+    change = delete_book(test)
     return {"response": test} if change else "something went wrong"
 
 

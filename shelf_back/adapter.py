@@ -5,6 +5,8 @@ from .db_manager import (
     get_author,
     add_book,
     change_book,
+    delete_book_by_id,
+    change_status,
 )
 from funcy import walk, walk_values, is_seqcoll, is_mapping, autocurry
 
@@ -36,6 +38,16 @@ def get_author_details(author_id):
 
 def change_book_in_storage(book):
     test = change_book(book)
+    return "change_book_in_storage"
+
+
+def change_book_status(book):
+    test = change_status(book)
+    return "change_book_in_storage"
+
+
+def delete_book(book):
+    test = delete_book_by_id(book)
     return "change_book_in_storage"
 
 
